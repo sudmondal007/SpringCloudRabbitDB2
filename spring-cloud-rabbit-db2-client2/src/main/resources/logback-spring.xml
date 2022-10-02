@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property name="FILE_PATTERN"
+		value="%d{[M/d/yy HH:mm:ss:SSS]} [%thread]- %-5level %logger{36}.%M - %msg%n" />
+	<property name="LOG_PATH"
+		value="/configlogs/${LoggingEnvironment}/ApplicationLogs" />
+	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${FILE_PATTERN}</pattern>
+		</encoder>
+	</appender>
+	<appender name="Main"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/client_info.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${FILE_PATTERN}</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>INFO</level>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/archived/client_main_%d{dd-MM-yyyy}_%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>5</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	<appender name="Debug"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/client_debug.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${FILE_PATTERN}</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>DEBUG</level>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>DEBUG</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/archived/client_debug_%d{dd-MM-yyyy}_%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>5</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	<appender name="Error"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/client_error.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${FILE_PATTERN}</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>ERROR</level>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/archived/client_error_%d{dd-MM-yyyy}_%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>5</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+	
+	<appender name="Trace"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${LOG_PATH}/client_trace.log</file>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<Pattern>${FILE_PATTERN}</Pattern>
+		</encoder>
+		<filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+			<level>TRACE</level>
+		</filter>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>TRACE</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+			<fileNamePattern>${LOG_PATH}/archived/client_trace_%d{dd-MM-yyyy}_%i.log
+			</fileNamePattern>
+			<maxFileSize>100MB</maxFileSize>
+			<maxHistory>5</maxHistory>
+			<totalSizeCap>500MB</totalSizeCap>
+		</rollingPolicy>
+	</appender>
+
+	<root level="INFO">
+		<appender-ref ref="Main" />
+		<springProfile name="LOCAL">
+			<appender-ref ref="CONSOLE" />
+		</springProfile>
+	</root>
+
+	<logger name="com.sudm" level="ERROR">
+		<appender-ref ref="Error" />
+	</logger>
+
+	<logger name="com.sudm" level="DEBUG">
+		<appender-ref ref="Debug" />
+	</logger>
+	
+	<logger name="com.sudm" level="TRACE">
+		<appender-ref ref="Trace" />
+    </logger>
+
+</configuration>
